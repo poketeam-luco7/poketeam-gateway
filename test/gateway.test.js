@@ -62,6 +62,8 @@ test("token valide : l'id du token remplace un X-User-Id usurpé", async () => {
 test("les anciennes routes /pokeapi sont réécrites vers le Pokédex", async () => {
   assert.equal((await (await call("/pokeapi/generation/1")).json()).path, "/generation/1");
   assert.equal((await (await call("/pokeapi/poke/6")).json()).path, "/pokemon/6");
+  assert.equal((await (await call("/pokeapi/megas")).json()).path, "/megas");
+  assert.equal((await (await call("/pokeapi/type/water/pokemon")).json()).path, "/type/water/pokemon");
 });
 
 test("préflight CORS autorisé pour le front", async () => {

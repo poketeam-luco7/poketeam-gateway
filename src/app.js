@@ -66,11 +66,11 @@ function createApp({ jwtSecret, dresseursUrl, equipesUrl, pokedexUrl, corsOrigin
 
   app.use(proxy(["/auth", "/users"], dresseursUrl));
   app.use(proxy("/teams", equipesUrl));
+  // /pokeapi/poke/6 -> /pokemon/6 (ancienne route du front), /pokeapi/xxx -> /xxx
   app.use(
-    proxy("/pokeapi", pokedexUrl, {
-      "^/pokeapi/generation": "/generation",
-      "^/pokeapi/poke": "/pokemon",
-    })
+    proxy("/pokeapi", pokedexUrl, (path) =>
+      path.replace(/^\/pokeapi\/poke\//, "/pokemon/").replace(/^\/pokeapi/, "")
+    )
   );
 
   app.use((_req, res) => res.status(404).json({ error: "Route inconnue" }));
