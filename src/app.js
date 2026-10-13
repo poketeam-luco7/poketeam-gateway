@@ -65,7 +65,7 @@ function createApp({ jwtSecret, dresseursUrl, equipesUrl, pokedexUrl, corsOrigin
     });
 
   app.use(proxy(["/auth", "/users"], dresseursUrl));
-  app.use(proxy("/teams", equipesUrl));
+  app.use(proxy(["/teams", "/capture"], equipesUrl));
   // /pokeapi/poke/6 -> /pokemon/6 (ancienne route du front), /pokeapi/xxx -> /xxx
   app.use(
     proxy("/pokeapi", pokedexUrl, (path) =>

@@ -59,6 +59,14 @@ test("token valide : l'id du token remplace un X-User-Id usurpé", async () => {
   assert.equal(body.path, "/teams/abc");
 });
 
+test("mode Capture : protégé et routé vers Équipes", async () => {
+  assert.equal((await call("/capture")).status, 401);
+  const r = await call("/capture/run", { method: "POST", headers: { Authorization: `Bearer ${token("7")}` } });
+  const body = await r.json();
+  assert.equal(body.path, "/capture/run");
+  assert.equal(body.userId, "7");
+});
+
 test("les anciennes routes /pokeapi sont réécrites vers le Pokédex", async () => {
   assert.equal((await (await call("/pokeapi/generation/1")).json()).path, "/generation/1");
   assert.equal((await (await call("/pokeapi/poke/6")).json()).path, "/pokemon/6");
